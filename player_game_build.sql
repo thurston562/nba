@@ -1,0 +1,2 @@
+select player_name, team_id,game_season, (select current_date - dob from player_summary where name = player_name) as game_age_in_days,avg(game_score) average_game_score from game_details b where player_name in (select player_name from game_matchup where game_date = current_date and injury_notes is null or injury_notes not ilike '%out%') and game_season = '2020-21' and game_location = (select case when home = True then null else '@' end from game_matchup a where game_date = current_date and a.player_name = b.player_name) group by 1,2,3,4 order by team_id
+
